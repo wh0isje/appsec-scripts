@@ -40,10 +40,11 @@ python apitest.py -u https://api.example.com/v1/user
 
 | Script | Purpose | Category | Status |
 |--------|---------|----------|--------|
-| [`check_headers.py`](#-check_headerspy) | HTTP security headers check | Web | ✅ Stable |
-| [`multithread_rate_limit.py`](#-multithread_rate_limitpy) | Rate limiting assessment | API | ✅ Stable |
-| [`apitest.py`](#-apitestpy) | Basic API input testing | API | 🧪 Beta |
-| [`portscan.py`](#-portscanpy) | Network port scanning | Network | ✅ Stable |
+| [`check_headers.py`](check_headers.py) | HTTP security headers check | Web | ✅ Stable |
+| [`multithread_rate_limit.py`](multithread_rate_limit.py) | Rate limiting assessment | API | ✅ Stable |
+| [`apitest.py`](apitest.py) | Basic API input testing | API | 🧪 Beta |
+| [`portscan.py`](portscan.py) | Network port scanning | Network | ✅ Stable |
+| [`jwt_analyzer.py`](jwt_analyzer.py) | JWT structure and security analysis | Auth | ✅ Stable |
 
 ---
 
@@ -119,6 +120,52 @@ Lightweight port scanning utility to identify **open network services** on commo
 
 ---
 
+### 🔐 `jwt_analyzer.py`
+
+Advanced JWT analysis tool for **security assessment and vulnerability detection** in JSON Web Tokens.
+
+**What it analyzes**
+
+- Header security: `alg=none`, algorithm confusion, `jku`/`jwk`/`x5u` injection vectors
+- Payload claims: expiration (`exp`), not-before (`nbf`), issuer (`iss`), audience (`aud`)
+- Sensitive data exposure in token payload
+- Signature strength and entropy analysis
+- HMAC signature verification (if secret provided)
+
+**Security checks performed**
+
+| Check | Severity | Description |
+|-------|----------|-------------|
+| `alg_none` | 🔴 CRITICAL | Algorithm set to "none" - allows signature bypass |
+| `alg_confusion` | 🔴 HIGH | HS algorithm with public key headers - confusion attack risk |
+| `jku_present` | 🔴 HIGH | External key URL (`jku`) - potential SSRF/key injection |
+| `exp_missing` | 🟡 MEDIUM | No expiration claim - token never expires |
+| `sensitive_data` | 🔴 HIGH | Potential PII/secrets exposed in payload |
+| `kid_present` | 🔵 INFO | Key ID present - check for injection vulnerabilities |
+
+**Use cases**
+
+- Manual JWT security testing during assessments
+- Validating token hardening in development
+- Educational analysis of JWT structure and claims
+- Supporting API security reviews
+
+**Examples**
+```bash
+# Basic analysis
+python3 jwt_analyzer.py "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+# Verify HMAC signature with known secret
+python3 jwt_analyzer.py "eyJhbGci..." -s "my_secret_key"
+
+# Export report to JSON
+python3 jwt_analyzer.py "eyJhbGci..." -o report.json
+
+# Raw output + quiet mode for scripting
+python3 jwt_analyzer.py "eyJhbGci..." --raw --quiet
+```
+---
+
 ## 🛠️ Tech Stack
 
 | Aspect | Details |
@@ -134,7 +181,7 @@ Lightweight port scanning utility to identify **open network services** on commo
 
 - [ ] Improved rate limit testing with RPS control and metrics
 - [ ] Authorization testing helpers (IDOR / BOLA scenarios)
-- [ ] JWT structure and claim analysis utilities
+- [x] JWT structure and claim analysis utilities ✅
 - [ ] Exportable results for reporting and evidence (JSON/CSV)
 - [ ] Custom payload support for apitest.py
 
@@ -145,3 +192,4 @@ Lightweight port scanning utility to identify **open network services** on commo
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 - [OWASP API Security Top 10](https://owasp.org/www-project-api-security/)
 - [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+
