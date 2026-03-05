@@ -45,6 +45,7 @@ python apitest.py -u https://api.example.com/v1/user
 | [`apitest.py`](apitest.py) | Basic API input testing | API | 🧪 Beta |
 | [`portscan.py`](portscan.py) | Network port scanning | Network | ✅ Stable |
 | [`jwt_analyzer.py`](jwt_analyzer.py) | JWT structure and security analysis | Auth | ✅ Stable |
+| [`idor_tester.py`](idor_tester.py) | IDOR/BOLA authorization testing | API | ✅ Stable |
 
 ---
 
@@ -235,6 +236,7 @@ python3 idor_tester.py -u "https://api.example.com/items/{ID}" -r 500-520 --base
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 - [OWASP API Security Top 10](https://owasp.org/www-project-api-security/)
 - [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+
 
 
 
