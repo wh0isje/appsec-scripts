@@ -166,6 +166,49 @@ python3 jwt_analyzer.py "eyJhbGci..." --raw --quiet
 ```
 ---
 
+---
+
+### 🔓 `idor_tester.py`
+
+Helper for testing **Insecure Direct Object Reference (IDOR)** / **Broken Object Level Authorization (BOLA)** in APIs.
+
+**What it does**
+
+- Tests sequential IDs, UUIDs, or custom identifiers for unauthorized access
+- Compares responses against baseline to detect authorization bypasses
+- Detects sensitive data exposure and information leakage patterns
+- Supports authentication headers for testing in authorized context
+- Threaded execution for efficient testing
+
+**Detection indicators**
+
+| Indicator | Description |
+|-----------|-------------|
+| `STATUS_DIFF_FROM_BASELINE` | Response status differs from baseline (e.g., 200 vs 403) |
+| `CONTENT_LENGTH_DIFF` | Significant response size difference suggesting data exposure |
+| `SENSITIVE_DATA_PATTERN` | Regex match for PII/secrets in response body |
+| `INFO_LEAKAGE_PATTERN` | Error messages that reveal valid/invalid ID status |
+
+**Usage**
+```bash
+# Test numeric range
+python3 idor_tester.py -u "https://api.example.com/users/{ID}" -r 1000-1010
+
+# Test with wordlist
+python3 idor_tester.py -u "https://api.example.com/orders/{id}" -w ids.txt
+
+# With authentication and verbose output
+python3 idor_tester.py -u "https://api.example.com/profile/{ID}" -r 100-110 \
+  -H "Authorization: Bearer <token>" -v
+
+# Export results to JSON
+python3 idor_tester.py -u "https://api.example.com/data/{ID}" -r 1-50 -o report.json
+
+# Use baseline comparison for better accuracy
+python3 idor_tester.py -u "https://api.example.com/items/{ID}" -r 500-520 --baseline 999
+```
+---
+
 ## 🛠️ Tech Stack
 
 | Aspect | Details |
@@ -180,7 +223,7 @@ python3 jwt_analyzer.py "eyJhbGci..." --raw --quiet
 ## 📈 Roadmap
 
 - [ ] Improved rate limit testing with RPS control and metrics
-- [ ] Authorization testing helpers (IDOR / BOLA scenarios)
+- [x] Authorization testing helpers (IDOR / BOLA scenarios)
 - [x] JWT structure and claim analysis utilities ✅
 - [ ] Exportable results for reporting and evidence (JSON/CSV)
 - [ ] Custom payload support for apitest.py
@@ -192,4 +235,5 @@ python3 jwt_analyzer.py "eyJhbGci..." --raw --quiet
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 - [OWASP API Security Top 10](https://owasp.org/www-project-api-security/)
 - [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+
 
