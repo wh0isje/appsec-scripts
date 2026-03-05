@@ -152,16 +152,16 @@ Advanced JWT analysis tool for **security assessment and vulnerability detection
 
 **Examples**
 ```bash
-# Basic analysis
+#Basic analysis
 python3 jwt_analyzer.py "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 
-# Verify HMAC signature with known secret
+#Verify HMAC signature with known secret
 python3 jwt_analyzer.py "eyJhbGci..." -s "my_secret_key"
 
-# Export report to JSON
+#Export report to JSON
 python3 jwt_analyzer.py "eyJhbGci..." -o report.json
 
-# Raw output + quiet mode for scripting
+#Raw output + quiet mode for scripting
 python3 jwt_analyzer.py "eyJhbGci..." --raw --quiet
 ```
 ---
@@ -191,20 +191,20 @@ Helper for testing **Insecure Direct Object Reference (IDOR)** / **Broken Object
 
 **Usage**
 ```bash
-# Test numeric range
+#Test numeric range
 python3 idor_tester.py -u "https://api.example.com/users/{ID}" -r 1000-1010
 
-# Test with wordlist
+#Test with wordlist
 python3 idor_tester.py -u "https://api.example.com/orders/{id}" -w ids.txt
 
-# With authentication and verbose output
+#With authentication and verbose output
 python3 idor_tester.py -u "https://api.example.com/profile/{ID}" -r 100-110 \
   -H "Authorization: Bearer <token>" -v
 
-# Export results to JSON
+#Export results to JSON
 python3 idor_tester.py -u "https://api.example.com/data/{ID}" -r 1-50 -o report.json
 
-# Use baseline comparison for better accuracy
+#Use baseline comparison for better accuracy
 python3 idor_tester.py -u "https://api.example.com/items/{ID}" -r 500-520 --baseline 999
 ```
 ---
@@ -235,5 +235,6 @@ python3 idor_tester.py -u "https://api.example.com/items/{ID}" -r 500-520 --base
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 - [OWASP API Security Top 10](https://owasp.org/www-project-api-security/)
 - [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+
 
 
