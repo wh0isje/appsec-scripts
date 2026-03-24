@@ -210,6 +210,54 @@ python3 idor_tester.py -u "https://api.example.com/items/{ID}" -r 500-520 --base
 ```
 ---
 
+---
+
+### 🌐 `cors_tester.py` <sub><sup>v2.0</sup></sub>
+
+Advanced helper for testing **Cross-Origin Resource Sharing (CORS) misconfigurations** with evasion capabilities.
+
+**What it tests**
+
+| Category | Tests |
+|----------|-------|
+| 🔴 Critical | Wildcard + Credentials, Null Origin + Credentials, Arbitrary Origin Reflection + Credentials |
+| 🟠 High | Null Origin Accepted, Sensitive Headers Exposed, Regex Bypass Patterns |
+| 🟡 Medium | Wildcard Origin, Origin Reflection without Vary, Long Preflight Cache |
+| 🔵 Low | Permissive HTTP Methods, Moderate Cache Duration |
+
+**Advanced Features**
+
+- 🎭 **Stealth Mode**: Random delays + jitter to evade WAF/rate limiting
+- 🔐 **Auth Support**: Test with custom authentication headers
+- 🌐 **WebSocket Testing**: Detect CORS issues in WebSocket endpoints
+- 🧬 **Bypass Techniques**: IDN homograph, prefix/suffix, @ injection, port variation
+- 📊 **Performance Metrics**: Track response times for anomaly detection
+- 📄 **Dual Export**: JSON for automation + Interactive HTML for reporting
+
+**Usage**
+```bash
+# Basic test
+python3 cors_tester.py -u https://api.example.com
+
+# With custom origin + verbose
+python3 cors_tester.py -u https://api.example.com -o https://evil.com -v
+
+# Stealth mode with delay
+python3 cors_tester.py -u https://api.example.com --stealth --delay 2
+
+# With authentication headers
+python3 cors_tester.py -u https://api.example.com \
+  -H "Authorization: Bearer <token>" \
+  -H "X-API-Key: <key>"
+
+# Export reports
+python3 cors_tester.py -u https://api.example.com --output report.json --html
+
+# Test WebSocket endpoints
+python3 cors_tester.py -u wss://api.example.com/ws --websocket
+```
+---
+
 ## 🛠️ Tech Stack
 
 | Aspect | Details |
